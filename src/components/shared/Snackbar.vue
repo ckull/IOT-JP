@@ -1,26 +1,26 @@
 <template>
-    <v-snackbar top multi-line v-model="snackbar">
-        {{ text }}
-        <v-btn flat color="pink" @click.native="snackbar = false">CLOSE</v-btn>
+    <v-snackbar top multi-line v-model="error" v-if="error">
+        {{ error.message }}
+        <v-btn flat color="pink" @click.native="onClose">CLOSE</v-btn>
     </v-snackbar>
 </template>
 
 <script>
     export default {
-        props: ['text'],
+        // props: ['text'],
         data() {
             return {
                 snackbar: true
             }
         },
-        methods: {
-            onClose() {
-                this.$emit('dismissed')
+        computed: {
+            error(){
+                return this.$store.getters.error
             }
         },
-        watch: {
-            snackbar(value) {
-                this.onClose()
+        methods: {
+            onClose() {
+                this.$store.dispatch('clearError')
             }
         }
     }
