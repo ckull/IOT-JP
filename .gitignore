@@ -1,9 +1,10 @@
 .DS_Store
-node_modules/
-dist/
+client/node_modules
+server/node_modules
+client/dist/
 npm-debug.log
 yarn-error.log
-src/config/firebase.js
+client/src/config/firebase.js
 
 # Editor directories and files
 .idea

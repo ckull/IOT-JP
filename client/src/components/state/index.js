@@ -1,8 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import {ref, auth} from '../../config/firebase.js'
-import { stat } from 'fs';
-
+import {ref, auth} from '../../config/firebase'
+import Devices from '../../services/fetch'
 
 Vue.use(Vuex)
 
@@ -10,7 +9,8 @@ export const store = new Vuex.Store({
     state: {
         user: null,
         loading: false, 
-        error: null
+        error: null,
+        devices: []
     },
     mutations: {
         setUser(state, payload) {
@@ -24,6 +24,9 @@ export const store = new Vuex.Store({
         },
         clearError(state) {
             state.error = null
+        },
+        setDevice(state, payload) {
+            state.devices = payload
         }
     },
     actions: {
@@ -59,6 +62,16 @@ export const store = new Vuex.Store({
         },
         clearError({commit}) {
             commit('clearError')
+        },
+        fetchDevices({commit}) {
+            return new Promise((resolve, reject) => {
+                Devices.fetchDevices().then( res => {
+                    commit('setDevice', res.data)
+                    resolve()
+                }).catch( err => {
+                    reject(err)
+                })
+            })
         }
     },
     getters: {
@@ -70,6 +83,9 @@ export const store = new Vuex.Store({
         }, 
         loading (state) {
             return state.loading
+        },
+        devices (state) {
+            return state.devices
         }
     }
 })

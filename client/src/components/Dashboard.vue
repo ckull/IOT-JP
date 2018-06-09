@@ -1,6 +1,7 @@
 <template>
     <v-app>
         <v-container text-xs-center grid-list-xl>
+            <p>{{ devices }}</p>
             <v-layout row wrap>
                 <v-flex xs12 ms6 md4>
                     <v-card hover>
@@ -82,14 +83,23 @@
                 oldValue: 0
             }
         },
+        created() {
+            this.$store.dispatch('fetchDevices').then( () => {
+                console.log('Successfully fetch device')
+            }).catch( err => {
+                console.error(err)
+            })
+        },
         computed: {
             user() {
                 return this.$store.getters.user
+            },
+            devices() {
+                return this.$store.getters.devices
             }
         },
         methods: {
             logOut() {
-                var vm = this;
                 this.$store.dispatch('signOut').then(() => {
                     // SignOut
                 }).catch(err => {

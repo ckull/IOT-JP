@@ -6,6 +6,7 @@ import Vuetify from 'vuetify'
 import Vuefire from 'vuefire'
 import VueRouter from 'vue-router'
 import VueParticles from 'vue-particles'
+import AsyncComputed from 'vue-async-computed'
 import 'vuetify/dist/vuetify.min.css'
 
 import { routes } from './router/index'
@@ -16,10 +17,10 @@ import Alert from './components/shared/Alert.vue'
 import Snackbar from './components/shared/Snackbar.vue'
 import { ScalingSquaresSpinner  } from 'epic-spinners'
 
-// Vue.use(Vuetify)
 Vue.use(Vuefire)
 Vue.use(VueRouter)
 Vue.use(VueParticles)
+Vue.use(AsyncComputed);
 
 Vue.use(Vuetify, {
   theme: {

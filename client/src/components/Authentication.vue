@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <!-- <vue-particles color="#dedede" :particleOpacity="1" :particleSize="5" :particlesNumber="180" shapeType="circle" :linesWidth="1" :moveSpeed="4">
-    </vue-particles> -->
-    <canvas id="granim-canvas"></canvas>
+     <canvas id="granim-canvas"></canvas>
+    <vue-particles color="#ffffff" :particleOpacity="1" :particleSize="5" :particlesNumber="120" :clickEffect="false" shapeType="circle" :linesWidth="1.8" :lineOpacity="0.8" :moveSpeed="1">
+    </vue-particles>
     <v-container fluid fill-height>
       <snack-bar></snack-bar>
       <v-layout align-center justify-center>
@@ -38,7 +38,7 @@
 
 <script>
   import Granim from 'granim'
-  
+
   export default {
     data() {
       return {
@@ -109,14 +109,14 @@
 </script>
 
 <style scoped>
-  /* #particles-js {
+  #particles-js {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
     z-index: 0;
-  } */
+  }
 
   #granim-canvas {
     position: absolute;
@@ -127,4 +127,5 @@
     height: 100%;
     opacity: 1;
   }
+
 </style>

@@ -28,6 +28,7 @@
     <v-toolbar
       app
       :clipped-left="clipped"
+      v-if="user"
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer" v-if="user"></v-toolbar-side-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
@@ -36,7 +37,7 @@
     <v-content>
       <router-view/>
     </v-content>
-    <v-footer :fixed="fixed" app>
+    <v-footer :fixed="fixed" app v-if="user">
       <v-layout row wrap justify-center>
          <span>&copy; 2018 - Kullapat Siribodhi</span>
       </v-layout>
