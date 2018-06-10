@@ -31,9 +31,9 @@ app.post('/devices', (req, res) => {
     description: description
   })
 
-  new_device.save(function (error) {
-    if (error) {
-      console.log(error)
+  new_device.save( err => {
+    if (err) {
+      console.log(err)
     }
     res.send({
       success: true,
@@ -47,11 +47,57 @@ app.get('/devices', (req, res) => {
     if (err) {
       console.error(err)
     }
-
     res.send({
       devices: devices
     })
   })
 })
 
-app.listen(process.env.PORT || 3000)
+app.get('/device/:id', (req, res) => {
+  Device.findById(req.params.id, (err, device) => {
+    if(err) {
+      console.error(err)
+    }
+    res.send({
+      device: device
+    })
+  })
+})
+
+app.post('/devices/:id', (req, res) => {
+  Device.findById(req.params.id, (err, device) => {
+    if(err) {
+      console.error(err)
+    }
+    device.title = req.body.title;
+    device.description = req.body.description;
+    device.save( err => {
+      if(err) {
+        console.error(err)
+      }
+      res.send({
+        success: true,
+        message: 'Update device successfully!'
+      })
+    })
+  })
+})
+
+app.delete('/device/:id', (req, res) => [
+  Device.remove({
+    _id: req.params.id
+  }, (err) => {
+    if(err){
+      console.error(err)
+    }
+    res.send({
+      success: true,
+      message: 'Delete device successfully!'
+    })
+  })
+])
+
+
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Server listening on PORT: 3000')
+})

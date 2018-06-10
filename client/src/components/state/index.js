@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 import {ref, auth} from '../../config/firebase'
-import Devices from '../../services/fetch'
+import Devices from '../../services/device'
 
 Vue.use(Vuex)
 
