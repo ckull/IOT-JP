@@ -10,7 +10,10 @@ export const store = new Vuex.Store({
         user: null,
         loading: false, 
         error: null,
-        devices: []
+        devices: [],
+        locations: [],
+        dialog: false,
+        TIME: 500
     },
     mutations: {
         setUser(state, payload) {
@@ -25,8 +28,14 @@ export const store = new Vuex.Store({
         clearError(state) {
             state.error = null
         },
-        setDevice(state, payload) {
+        setDevices(state, payload) {
             state.devices = payload
+        },
+        setLocations(state, payload) {
+            state.locations = payload
+        },
+        setDialog(state, payload) {
+            state.dialog = payload
         }
     },
     actions: {
@@ -63,10 +72,23 @@ export const store = new Vuex.Store({
         clearError({commit}) {
             commit('clearError')
         },
+        // actionDialog({commit}, payload) {
+        //     commit('setDialog', payload)
+        // },
         fetchDevices({commit}) {
             return new Promise((resolve, reject) => {
                 Devices.fetchDevices().then( res => {
-                    commit('setDevice', res.data)
+                    commit('setDevices', res.data)
+                    resolve()
+                }).catch( err => {
+                    reject(err)
+                })
+            })
+        },
+        fetchLocations({commit}) {
+            return new Promise((resolve, reject) => {
+                Devices.fetchLocations().then( res => {
+                    commit('setLocations', res.data)
                     resolve()
                 }).catch( err => {
                     reject(err)
@@ -75,17 +97,26 @@ export const store = new Vuex.Store({
         }
     },
     getters: {
-        user (state){
+        user(state) {
             return state.user
         },
-        error (state) {
+        error(state) {
             return state.error
         }, 
-        loading (state) {
+        loading(state) {
             return state.loading
         },
-        devices (state) {
+        devices(state) {
             return state.devices
+        },
+        time(state) {
+            return state.TIME
+        },
+        locations(state) {
+            return state.locations
+        },
+        dialog(state) {
+            return state.dialog
         }
     }
 })

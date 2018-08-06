@@ -1,110 +1,78 @@
 <template>
     <v-app>
-        <v-container text-xs-center grid-list-xl>
-            <p>{{ devices }}</p>
+        <v-container grid-list-xl>
             <v-layout row wrap>
-                <v-flex xs12 ms6 md4>
-                    <v-card hover>
-                        <v-container fluid>
-                            <v-layout row>
-                                <v-flex xs7>
-                                    <div>
-                                        <div class="headline">Device Active</div>
-                                    </div>
-                                </v-flex>
-                                <v-flex xs5>
-                                    <v-progress-circular :size="100" :width="15" :rotate="360" :value="50" color="teal">
-                                        50
-                                    </v-progress-circular>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card>
+                <v-flex xs12 sm3 md4>
+                    <Devices></Devices>
+                </v-flex>
+                <v-flex xs12 sm3 md4>
+                    <Locations></Locations>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                    <v-card hover>
-                        <v-container fluid>
-                            <v-layout row>
-                                <v-flex xs7>
-                                    <div>
-                                        <div class="headline">Humidity</div>
-                                    </div>
-                                </v-flex>
-                                <v-flex xs5>
-                                    <v-progress-circular :size="100" :width="15" :rotate="360" :value="30" color="teal">
-                                        30
-                                    </v-progress-circular>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card>
+                    <Mongo></Mongo>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
-                    <v-card hover>
-                        <v-container fluid>
-                            <v-layout row>
-                                <v-flex xs7>
-                                    <div>
-                                        <div class="headline">Temperature</div>
-                                    </div>
-                                </v-flex>
-                                <v-flex xs5>
-                                    <v-progress-circular :size="100" :width="15" :rotate="360" :value="30" color="teal">
-                                        30
-                                    </v-progress-circular>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card>
+                <v-flex xs12 sm6 v-for="device in devices" :key="device._id">
+                    <Device :deviceUid="device"></Device>
                 </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex>
-                    <v-card>
-                        <v-card-text>
-                            <p class="text-xs-center">Successfully</p>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn color="primary" @click.native.prevent="logOut">Sign Out</v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-flex>
-            </v-layout>
+            </v-layout>  
         </v-container>
     </v-app>
 </template>
 
 <script>
+    import Devices from './sub/Devices.vue'
+    import Device from './sub/Device.vue'
+    import Locations from './sub/Locations.vue'
+    import Mongo from './sub/Mongo.vue'
+    
     export default {
+        components: {
+            Devices,
+            Device,
+            Locations,
+            Mongo
+        },
         data() {
             return {
                 value: 30,
-                oldValue: 0
+                oldValue: 0,
+                interval: null
             }
         },
         created() {
-            this.$store.dispatch('fetchDevices').then( () => {
-                console.log('Successfully fetch device')
-            }).catch( err => {
-                console.error(err)
-            })
+            var vm = this
+            this.interval = setInterval( () => {
+                vm.$store.dispatch('fetchDevices').then( () => {
+                   // fetch device
+                }).catch(err => {
+                    console.error(err)
+                })
+
+                vm.$store.dispatch('fetchLocations').then( () => {
+                   // fetch location
+                }).catch(err => {
+                    console.error(err)
+                })
+            }, this.time);
+        },
+        destroyed () {
+            console.log('Destroy devices')
+            clearInterval(this.interval)
         },
         computed: {
             user() {
                 return this.$store.getters.user
             },
             devices() {
-                return this.$store.getters.devices
+                return this.$store.getters.devices.device
+            },
+            time() {
+                return this.$store.getters.time
             }
         },
         methods: {
-            logOut() {
-                this.$store.dispatch('signOut').then(() => {
-                    // SignOut
-                }).catch(err => {
-                    console.error(err)
-                })
+            devicesList(devices) {
+                return devices.device
             }
         },
         update() {
@@ -119,7 +87,7 @@
 </script>
 
 <style scoped>
-
+    
 </style>
 
 

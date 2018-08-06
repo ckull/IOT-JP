@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import Vuetify from 'vuetify'
+import Colors from 'vuetify/es5/util/colors'
 import Vuefire from 'vuefire'
 import VueRouter from 'vue-router'
 import VueParticles from 'vue-particles'
@@ -24,8 +25,8 @@ Vue.use(AsyncComputed);
 
 Vue.use(Vuetify, {
   theme: {
-    primary: '#00838F',
-    secondary: '#b0bec5',
+    primary: Colors.cyan.darken2,
+    secondary: Colors.teal.accent2,
     accent: '#8c9eff',
     error: '#b71c1c'
   }

@@ -1,4 +1,4 @@
-# IOT Smart Office
+# IOT PLAT HOME
 
 > A Vue.js project
 
